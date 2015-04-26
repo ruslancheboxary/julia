@@ -51,11 +51,14 @@ public:
 	void createHeapArray(int n_args, ...);
 	//Создать массив фиксированного размера в стеке
 	void createStackArray(int n_args, ...);
+    //template < typename A >
+    //std::vector<int>& ArrayParameters
 	//Создание маски изменений в массиве
-	//template < typename A >
-	//std::vector<int>& ArrayParameters
 	void compareInsideArray(int * framesPtr,bool * changesMaskPtr,int noise,int find_key,int AP[],
 		PO ParallelOption,bool isDebugInfo,bool isMeasureTime,bool isMeasureAvgTime);
+    //Параллельная реализация создания маски изменений с помощью  OpenMP
+    void compareInsideArrayOpenMP(int * frames,bool * changesMask,int noise,int find_key,int AP[],
+        PO ParallelOption,bool isDebugInfo,bool isMeasureTime,bool isMeasureAvgTime);
 	//Поиск одиннаковых символов и фрагментов внутри массива
 	//template < typename A >
 	//void searchRepeatCharsAndFragmentsInArray(A * framesPtr,bool * changesMaskPtr,int noise,int [] ArrayParameters,
