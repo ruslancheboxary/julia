@@ -6,6 +6,7 @@
 #include <vector>
 #include <stdarg.h>
 #include <iostream>
+#include <thread>
 #include "ssr.h"
 
 #ifdef LANG_RU
@@ -46,6 +47,40 @@ int main(int argc, char *argv[])
 
     ssr->compareInsideArrayOpenMP((int *)&frames[0],(bool *) &changesMask[0],noise,0,framesAP,SSR::isParallelOpenMP
                 ,false /*isDebugInfo*/,true /*isMeasureTime*/,true /*bool isMeasureAvgTime*/);
+
+    typedef std::vector<int> container;
+    typedef container::iterator iter;
+
+    container v(100, 1);
+
+    auto worker = [] (iter begin, iter end) {
+      for(auto it = begin; it != end; ++it) {
+        *it *= 2;
+      }
+    };
+
+
+    // serial
+    worker(std::begin(v), std::end(v));
+
+    std::cout << std::accumulate(std::begin(v), std::end(v), 0) << std::endl; // 200
+
+    // parallel
+    std::vector<std::thread> threads(8);
+    const int grainsize = v.size() / 8;
+
+    auto work_iter = std::begin(v);
+    for(auto it = std::begin(threads); it != std::end(threads) - 1; ++it) {
+      *it = std::thread(worker, work_iter, work_iter + grainsize);
+      work_iter += grainsize;
+    }
+    threads.back() = std::thread(worker, work_iter, std::end(v));
+
+    for(auto&& i : threads) {
+      i.join();
+    }
+
+    std::cout << std::accumulate(std::begin(v), std::end(v), 0) << std::endl; // 400
 
     //Поиск закономерностей
     //ssr.searchRepeatCharsAndFragmentsInArray<int>(&frames[0][0],&changesMask[0][0],noise,framesAP,SSR::isParallelOpenMP

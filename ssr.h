@@ -59,6 +59,9 @@ public:
     //Параллельная реализация создания маски изменений с помощью  OpenMP
     void compareInsideArrayOpenMP(int * frames,bool * changesMask,int noise,int find_key,int AP[],
         PO ParallelOption,bool isDebugInfo,bool isMeasureTime,bool isMeasureAvgTime);
+    //Параллельная реализация создания маски изменений с помощью  потоков
+    void compareInsideArrayThreads(int * frames,bool * changesMask,int noise,int find_key,int AP[],
+        PO ParallelOption,bool isDebugInfo,bool isMeasureTime,bool isMeasureAvgTime);
 	//Поиск одиннаковых символов и фрагментов внутри массива
 	//template < typename A >
 	//void searchRepeatCharsAndFragmentsInArray(A * framesPtr,bool * changesMaskPtr,int noise,int [] ArrayParameters,
