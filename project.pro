@@ -7,7 +7,7 @@
 QT       += core gui
 
 CONFIG +=  c++11
-LIBS = -lm
+LIBS = -lm -fopenmp
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

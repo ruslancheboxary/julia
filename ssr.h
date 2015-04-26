@@ -20,6 +20,7 @@
 #include <stdarg.h>
 #include <chrono>
 #include <unistd.h> 
+#include <omp.h>
 
 #ifdef LANG_RU
 /**
